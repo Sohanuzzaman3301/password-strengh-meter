@@ -3,7 +3,8 @@ bucket = "dist"
 entry-point = "./"
 
 name = "password-strengh-meter"
-
+# Cloudflare Pages build output directory (Top-level for wrangler compatibility)
+pages_build_output_dir = "dist"
 # Build settings (Astro builds to `dist/` by default)
 [build]
 command = "npm run build"

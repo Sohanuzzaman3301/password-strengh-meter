@@ -25,10 +25,10 @@ import Layout from '../layouts/Layout.astro';
 					<a href="#faq" class="hover:text-white transition-colors">Security & FAQ</a>
 				</nav>
 				<div>
-					<span class="inline-flex items-center rounded-full bg-neutral-900 border border-neutral-800 px-3 py-1 text-xs font-semibold text-sky-400 select-none shadow-[0_0_15px_rgba(56,189,248,0.05)]">
-						<span class="w-1.5 h-1.5 mr-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-						Local Sandbox Mode
-					</span>
+                    <span class="inline-flex items-center rounded-full bg-neutral-900 border border-neutral-800 px-3 py-1 text-xs font-semibold text-sky-400 select-none shadow-[0_0_15px_rgba(56,189,248,0.05)]">
+                        <span class="w-1.5 h-1.5 mr-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        Live
+                    </span>
 				</div>
 			</header>
 
@@ -497,9 +497,9 @@ import Layout from '../layouts/Layout.astro';
 		const result = zxcvbnInstance(password);
 		const score = result.score; // 0 to 4
 		
-		// Map entropy bits (approximation)
-		const entropyBits = Math.round(result.guesses_log10 * 3.322); 
-		statEntropy.textContent = entropyBits.toString();
+        // Map entropy bits (approximation). zxcvbn-ts uses `guessesLog10`.
+        const entropyBits = typeof result.guessesLog10 === 'number' ? Math.round(result.guessesLog10 * 3.322) : '-';
+        statEntropy.textContent = entropyBits.toString();
 
 		// Apply segment coloring
 		const config = scoreConfigs[score];
@@ -515,9 +515,11 @@ import Layout from '../layouts/Layout.astro';
 		});
 
 		// Dynamic Hacking Estimations
-		crackOnline.textContent = result.crack_times_display.online_no_throttling_10_guesses_per_second;
-		crackFast.textContent = result.crack_times_display.offline_fast_hashing_1e10_guesses_per_second;
-		crackSlow.textContent = result.crack_times_display.offline_slow_hashing_1e4_guesses_per_second;
+        // zxcvbn-ts exposes crack times in camelCase under crackTimesDisplay
+        const times = result.crackTimesDisplay || result.crack_times_display || {};
+        crackOnline.textContent = times.onlineNoThrottling10PerSecond || times.online_no_throttling_10_guesses_per_second || '-';
+        crackFast.textContent = times.offlineFastHashing1e10PerSecond || times.offline_fast_hashing_1e10_guesses_per_second || '-';
+        crackSlow.textContent = times.offlineSlowHashing1e4PerSecond || times.offline_slow_hashing_1e4_guesses_per_second || '-';
 
 		// Feedbacks & Warnings
 		const feedbackObj = result.feedback;
@@ -666,7 +668,8 @@ import Layout from '../layouts/Layout.astro';
 		
 		genStrengthBadge.textContent = config.label;
 		genStrengthBadge.className = `px-2.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider ${config.colorClass}`;
-		genCrackTime.textContent = `(Crack time: ${result.crack_times_display.offline_slow_hashing_1e4_guesses_per_second})`;
+        const genTimes = result.crackTimesDisplay || result.crack_times_display || {};
+        genCrackTime.textContent = `(Crack time: ${genTimes.offlineSlowHashing1e4PerSecond || genTimes.offline_slow_hashing_1e4_guesses_per_second || '-'})`;
 	}
 
 	// Copy to clipboard
