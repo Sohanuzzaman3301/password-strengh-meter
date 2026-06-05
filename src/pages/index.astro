@@ -1,0 +1,718 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="GuardPass | Premium Password Strength & Leak Analyzer">
+	<div class="relative overflow-hidden min-h-screen">
+		<!-- Background Glows -->
+		<div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full glow-accent"></div>
+		<div class="absolute bottom-[-15%] right-[-10%] w-[60%] h-[60%] rounded-full glow-accent" style="background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);"></div>
+
+		<!-- Container -->
+		<div class="max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8 relative z-10">
+			<!-- Header -->
+			<header class="flex items-center justify-between border-b border-neutral-800/80 pb-6 mb-12">
+				<div class="flex items-center space-x-3">
+					<!-- Shield Icon SVG -->
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-8 h-8 text-sky-400 drop-shadow-[0_0_10px_rgba(56,189,248,0.3)]">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+					</svg>
+					<span class="text-xl font-bold tracking-tight bg-gradient-to-r from-white via-neutral-200 to-neutral-400 bg-clip-text text-transparent">GuardPass</span>
+				</div>
+				<nav class="hidden md:flex space-x-6 text-sm text-neutral-400 font-medium">
+					<a href="#analyzer" class="hover:text-white transition-colors">Strength Tester</a>
+					<a href="#generator" class="hover:text-white transition-colors">Generator</a>
+					<a href="#faq" class="hover:text-white transition-colors">Security & FAQ</a>
+				</nav>
+				<div>
+					<span class="inline-flex items-center rounded-full bg-neutral-900 border border-neutral-800 px-3 py-1 text-xs font-semibold text-sky-400 select-none shadow-[0_0_15px_rgba(56,189,248,0.05)]">
+						<span class="w-1.5 h-1.5 mr-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+						Local Sandbox Mode
+					</span>
+				</div>
+			</header>
+
+			<!-- Hero Title -->
+			<div class="text-center max-w-2xl mx-auto mb-16">
+				<h1 class="text-4xl sm:text-5xl font-black tracking-tight bg-gradient-to-b from-white via-neutral-100 to-neutral-400 bg-clip-text text-transparent mb-4">
+					Test Your Password Strength Instantly
+				</h1>
+                    <p class="text-base sm:text-lg text-neutral-400 leading-relaxed font-light">
+                        Secure, client-side evaluation checking entropy, crack time and complexity criteria without exposing your data.
+                    </p>
+			</div>
+
+			<!-- Main Content Grid -->
+			<main class="space-y-16">
+				<!-- Section: Strength Analyzer -->
+				<section id="analyzer" class="scroll-mt-24">
+					<div class="glow-card p-6 sm:p-8">
+						<!-- Password Input Container -->
+						<div class="relative space-y-4">
+							<div class="flex items-center justify-between">
+								<label for="password-input" class="text-sm font-semibold tracking-wider text-neutral-400 uppercase">
+									Enter Password
+								</label>
+								<div class="flex items-center space-x-2">
+									<button id="toggle-password-visibility" class="text-xs font-medium text-neutral-500 hover:text-neutral-300 transition-colors flex items-center space-x-1" aria-label="Toggle Password Visibility">
+										<span id="visibility-icon-text">Show</span>
+									</button>
+								</div>
+							</div>
+							
+							<div class="relative">
+								<!-- Input -->
+								<input 
+									type="password" 
+									id="password-input" 
+									placeholder="Type a password here..." 
+									class="w-full bg-[#0d0d0d] border border-neutral-800 rounded-lg py-4 pl-5 pr-12 text-lg sm:text-xl font-mono text-white placeholder-neutral-700 focus:outline-none focus:border-neutral-500 focus:ring-1 focus:ring-neutral-500 transition-all select-all tracking-wide"
+									autocomplete="off"
+									spellcheck="false"
+								/>
+								<div class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center space-x-2">
+									<!-- Clear Button -->
+									<button id="clear-password" class="hidden text-neutral-500 hover:text-neutral-300 transition-colors p-1" aria-label="Clear input">
+										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+											<path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+										</svg>
+									</button>
+								</div>
+							</div>
+
+							<!-- Strength Bar -->
+							<div class="space-y-2 pt-2">
+								<div class="flex justify-between items-center text-sm font-semibold">
+									<span class="text-neutral-500">Security Score</span>
+									<span id="strength-label" class="text-neutral-600">Enter a password...</span>
+								</div>
+								<!-- Progress Bar Slots -->
+								<div class="grid grid-cols-5 gap-2 h-2.5">
+									<div class="strength-bar-segment bg-neutral-900 border border-neutral-800/80 rounded-full transition-all duration-500"></div>
+									<div class="strength-bar-segment bg-neutral-900 border border-neutral-800/80 rounded-full transition-all duration-500"></div>
+									<div class="strength-bar-segment bg-neutral-900 border border-neutral-800/80 rounded-full transition-all duration-500"></div>
+									<div class="strength-bar-segment bg-neutral-900 border border-neutral-800/80 rounded-full transition-all duration-500"></div>
+									<div class="strength-bar-segment bg-neutral-900 border border-neutral-800/80 rounded-full transition-all duration-500"></div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Dynamic Analytics Panel -->
+						<div id="analytics-panel" class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 pt-8 border-t border-neutral-800/80">
+							
+							<!-- Column 1: Speed Estimations & Warning -->
+							<div class="space-y-6">
+								<div>
+									<h3 class="text-xs font-semibold tracking-wider text-neutral-400 uppercase mb-4">Cracking Estimation</h3>
+									<div class="space-y-3">
+										<div class="flex justify-between items-center py-2 px-3 bg-[#0d0d0d] border border-neutral-900 rounded-md">
+											<span class="text-xs font-medium text-neutral-500">Online Hacking <span class="text-[10px] text-neutral-600 block">(with throttling)</span></span>
+											<span id="crack-online" class="text-xs font-mono font-medium text-neutral-300">-</span>
+										</div>
+										<div class="flex justify-between items-center py-2 px-3 bg-[#0d0d0d] border border-neutral-900 rounded-md">
+											<span class="text-xs font-medium text-neutral-500">Fast Hashing <span class="text-[10px] text-neutral-600 block">(GPU offline crack)</span></span>
+											<span id="crack-fast" class="text-xs font-mono font-medium text-neutral-300">-</span>
+										</div>
+										<div class="flex justify-between items-center py-2 px-3 bg-[#0d0d0d] border border-neutral-900 rounded-md">
+											<span class="text-xs font-medium text-neutral-500">Slow Hashing <span class="text-[10px] text-neutral-600 block">(bcrypt, argon2)</span></span>
+											<span id="crack-slow" class="text-xs font-mono font-medium text-neutral-300">-</span>
+										</div>
+									</div>
+								</div>
+
+								<!-- Feedback Alerts -->
+								<div id="feedback-alert" class="hidden rounded-lg border p-4">
+									<div class="flex space-x-3">
+										<div class="flex-shrink-0" id="feedback-icon-container"></div>
+										<div>
+											<h4 id="feedback-title" class="text-xs font-bold uppercase tracking-wider">Warning</h4>
+											<p id="feedback-text" class="text-xs text-neutral-400 mt-1 leading-relaxed">-</p>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Column 2: Criteria checklist & Leak status -->
+							<div class="space-y-6">
+								<div>
+									<h3 class="text-xs font-semibold tracking-wider text-neutral-400 uppercase mb-4">Complexity Criteria</h3>
+									<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+										<div class="flex items-center space-x-2.5 py-1" id="rule-length">
+											<span class="status-dot w-4 h-4 flex items-center justify-center rounded-full bg-neutral-900 border border-neutral-800 text-[10px] font-bold text-neutral-600">✓</span>
+											<span class="text-xs font-medium text-neutral-500">12+ Characters</span>
+										</div>
+										<div class="flex items-center space-x-2.5 py-1" id="rule-upper">
+											<span class="status-dot w-4 h-4 flex items-center justify-center rounded-full bg-neutral-900 border border-neutral-800 text-[10px] font-bold text-neutral-600">✓</span>
+											<span class="text-xs font-medium text-neutral-500">Uppercase Letter</span>
+										</div>
+										<div class="flex items-center space-x-2.5 py-1" id="rule-lower">
+											<span class="status-dot w-4 h-4 flex items-center justify-center rounded-full bg-neutral-900 border border-neutral-800 text-[10px] font-bold text-neutral-600">✓</span>
+											<span class="text-xs font-medium text-neutral-500">Lowercase Letter</span>
+										</div>
+										<div class="flex items-center space-x-2.5 py-1" id="rule-number">
+											<span class="status-dot w-4 h-4 flex items-center justify-center rounded-full bg-neutral-900 border border-neutral-800 text-[10px] font-bold text-neutral-600">✓</span>
+											<span class="text-xs font-medium text-neutral-500">Number (0-9)</span>
+										</div>
+										<div class="flex items-center space-x-2.5 py-1" id="rule-symbol">
+											<span class="status-dot w-4 h-4 flex items-center justify-center rounded-full bg-neutral-900 border border-neutral-800 text-[10px] font-bold text-neutral-600">✓</span>
+											<span class="text-xs font-medium text-neutral-500">Special Character</span>
+										</div>
+									</div>
+								</div>
+
+                                <!-- Leaked Database Check removed per configuration -->
+
+								<!-- Extra Details -->
+								<div class="flex justify-between items-center text-xs text-neutral-500 font-mono px-1">
+									<span>Entropy: <span id="stat-entropy" class="text-neutral-300 font-bold">-</span> bits</span>
+									<span>Length: <span id="stat-length" class="text-neutral-300 font-bold">0</span> chars</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<!-- Section: Password Generator -->
+				<section id="generator" class="scroll-mt-24">
+					<div class="glow-card p-6 sm:p-8">
+						<div class="flex items-center space-x-3 mb-6">
+							<!-- Key Icon -->
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-6 h-6 text-indigo-400">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 0 1 3 3m3 0a6 6 0 0 1-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1 1 21.75 8.25Z" />
+							</svg>
+							<h2 class="text-xl font-bold tracking-tight text-white">Generate High-Strength Password</h2>
+						</div>
+
+						<div class="space-y-6">
+							<!-- Output Box -->
+							<div class="relative bg-[#0d0d0d] border border-neutral-800 rounded-lg p-4 flex items-center justify-between">
+								<span id="generated-password-text" class="text-lg sm:text-xl font-mono text-indigo-300 tracking-wide overflow-x-auto select-all custom-scrollbar py-1">
+									Click Generate
+								</span>
+								<div class="flex items-center space-x-2 flex-shrink-0 ml-4">
+									<button id="copy-btn" class="p-2 hover:bg-neutral-800 border border-transparent hover:border-neutral-700/80 text-neutral-400 hover:text-white rounded-lg transition-all" aria-label="Copy to Clipboard" title="Copy to clipboard">
+										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+											<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125v-9.75A1.125 1.125 0 0 1 4.875 9.75H8.25m8.25 7.25h3.375c.621 0 1.125-.504 1.125-1.125v-9.75c0-.621-.504-1.125-1.125-1.125h-9.75a1.125 1.125 0 0 0-1.125 1.125V17.25" />
+										</svg>
+									</button>
+									<button id="regenerate-btn" class="p-2 hover:bg-neutral-800 border border-transparent hover:border-neutral-700/80 text-neutral-400 hover:text-white rounded-lg transition-all" aria-label="Regenerate Password" title="Regenerate password">
+										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+											<path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+										</svg>
+									</button>
+								</div>
+							</div>
+
+							<!-- Toast notification (Copy Confirm) -->
+							<div id="copy-toast" class="opacity-0 translate-y-2 pointer-events-none transition-all duration-300 absolute left-1/2 -translate-x-1/2 bottom-8 z-50 bg-neutral-900 border border-neutral-800 text-neutral-300 text-xs px-4 py-2 rounded-full shadow-lg flex items-center space-x-2">
+								<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+								<span>Password copied to clipboard!</span>
+							</div>
+
+							<!-- Controls -->
+							<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+								<!-- Length Slider -->
+								<div class="space-y-4 bg-[#0d0d0d] border border-neutral-900 rounded-lg p-5">
+									<div class="flex justify-between items-center text-sm">
+										<span class="font-semibold text-neutral-400">Password Length</span>
+										<span id="slider-val" class="font-mono text-indigo-400 font-bold">16</span>
+									</div>
+									<input 
+										type="range" 
+										id="length-slider" 
+										min="8" 
+										max="64" 
+										value="16" 
+										class="w-full accent-indigo-500 bg-neutral-800 cursor-pointer h-1.5 rounded-lg appearance-none"
+									/>
+									<div class="flex justify-between text-[10px] text-neutral-600 font-bold font-mono">
+										<span>8 chars</span>
+										<span>36 chars</span>
+										<span>64 chars</span>
+									</div>
+								</div>
+
+								<!-- Character Sets -->
+								<div class="bg-[#0d0d0d] border border-neutral-900 rounded-lg p-5 grid grid-cols-2 gap-4">
+									<label class="flex items-center space-x-3 cursor-pointer select-none">
+										<input type="checkbox" id="gen-upper" checked class="w-4 h-4 rounded border-neutral-800 text-indigo-600 bg-neutral-900 focus:ring-indigo-500 accent-indigo-500" />
+										<span class="text-xs font-semibold text-neutral-400">Uppercase</span>
+									</label>
+									<label class="flex items-center space-x-3 cursor-pointer select-none">
+										<input type="checkbox" id="gen-lower" checked class="w-4 h-4 rounded border-neutral-800 text-indigo-600 bg-neutral-900 focus:ring-indigo-500 accent-indigo-500" />
+										<span class="text-xs font-semibold text-neutral-400">Lowercase</span>
+									</label>
+									<label class="flex items-center space-x-3 cursor-pointer select-none">
+										<input type="checkbox" id="gen-number" checked class="w-4 h-4 rounded border-neutral-800 text-indigo-600 bg-neutral-900 focus:ring-indigo-500 accent-indigo-500" />
+										<span class="text-xs font-semibold text-neutral-400">Numbers (0-9)</span>
+									</label>
+									<label class="flex items-center space-x-3 cursor-pointer select-none">
+										<input type="checkbox" id="gen-symbol" checked class="w-4 h-4 rounded border-neutral-800 text-indigo-600 bg-neutral-900 focus:ring-indigo-500 accent-indigo-500" />
+										<span class="text-xs font-semibold text-neutral-400">Symbols (!@#$)</span>
+									</label>
+								</div>
+							</div>
+
+							<!-- Strength preview for Generated Password -->
+							<div class="flex items-center justify-between text-xs py-3 px-4 bg-[#0d0d0d] border border-neutral-900 rounded-lg">
+								<span class="text-neutral-500 font-semibold uppercase tracking-wider">Generated Strength:</span>
+								<div class="flex items-center space-x-2">
+									<span id="gen-strength-badge" class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider bg-neutral-900 border border-neutral-800 text-neutral-400">
+										-
+									</span>
+									<span id="gen-crack-time" class="text-neutral-400 font-medium">
+										-
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<!-- Section: Security & FAQ -->
+				<section id="faq" class="scroll-mt-24">
+					<div class="border-t border-neutral-800/80 pt-16">
+						<h2 class="text-2xl font-bold tracking-tight text-white mb-8 text-center">Security & FAQ</h2>
+						<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+							<div class="space-y-3">
+								<h3 class="text-sm font-bold text-neutral-200">Is this tool safe to test actual passwords?</h3>
+								<p class="text-xs text-neutral-400 leading-relaxed font-light">
+									Yes. All evaluation logic runs directly in your local browser sandbox. The password text is analyzed client-side using JavaScript. It is never stored, tracked, or sent to any server.
+								</p>
+							</div>
+                            <!-- Leaked database check documentation removed -->
+							<div class="space-y-3">
+								<h3 class="text-sm font-bold text-neutral-200">What is entropy in password strength?</h3>
+								<p class="text-xs text-neutral-400 leading-relaxed font-light">
+									Entropy measures the unpredictability of a password in bits. Higher entropy means a larger number of guesses are needed to brute force it. `zxcvbn` estimates entropy based on common patterns, dictionary lookups, keyboard patterns, dates, and names, rather than just simple length.
+								</p>
+							</div>
+							<div class="space-y-3">
+								<h3 class="text-sm font-bold text-neutral-200">Why are custom rules alone not enough?</h3>
+								<p class="text-xs text-neutral-400 leading-relaxed font-light">
+									A password like <code class="bg-neutral-900 border border-neutral-800 px-1 py-0.5 rounded text-[10px] text-neutral-300 font-mono">P@ssword1!</code> meets all criteria checks (length, uppercase, symbol, number) but is extremely weak because it uses common dictionary terms and substitutions. That is why entropy checks like `zxcvbn` are the modern standard.
+								</p>
+							</div>
+						</div>
+					</div>
+				</section>
+			</main>
+
+			<!-- Footer -->
+			<footer class="border-t border-neutral-800/80 mt-20 pt-8 text-center text-xs text-neutral-600 font-mono flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
+				<div>
+					<span>© {new Date().getFullYear()} GuardPass. Open Sandbox Tool.</span>
+				</div>
+				<div class="flex space-x-4">
+					<a href="#" class="hover:text-neutral-400 transition-colors">Privacy Policy</a>
+					<span>•</span>
+					<a href="#" class="hover:text-neutral-400 transition-colors">Developer Specs</a>
+				</div>
+			</footer>
+		</div>
+	</div>
+</Layout>
+
+<!-- Client Script Logic -->
+<script>
+	// Lazy load zxcvbn packages
+	let zxcvbnFn: any = null;
+	let isLoaderRunning = false;
+
+	async function loadZxcvbn() {
+		if (zxcvbnFn) return zxcvbnFn;
+		if (isLoaderRunning) {
+			while (isLoaderRunning) {
+				await new Promise(resolve => setTimeout(resolve, 50));
+			}
+			return zxcvbnFn;
+		}
+		
+		isLoaderRunning = true;
+		try {
+			const { zxcvbn: zxcvbnCore, zxcvbnOptions } = await import('@zxcvbn-ts/core');
+			const zxcvbnCommonPackage = await import('@zxcvbn-ts/language-common');
+
+			const options = {
+				dictionary: {
+					...zxcvbnCommonPackage.dictionary,
+				},
+				graphs: zxcvbnCommonPackage.adjacencyGraphs,
+			};
+			zxcvbnOptions.setOptions(options);
+			zxcvbnFn = zxcvbnCore;
+		} catch (error) {
+			console.error('Failed to lazy load password analyzer:', error);
+		} finally {
+			isLoaderRunning = false;
+		}
+		return zxcvbnFn;
+	}
+
+	// DOM Elements
+	const passwordInput = document.getElementById('password-input') as HTMLInputElement;
+	const clearBtn = document.getElementById('clear-password') as HTMLButtonElement;
+	const toggleVisibilityBtn = document.getElementById('toggle-password-visibility') as HTMLButtonElement;
+	const visibilityIconText = document.getElementById('visibility-icon-text') as HTMLSpanElement;
+	
+	const strengthLabel = document.getElementById('strength-label') as HTMLSpanElement;
+	const barSegments = document.querySelectorAll('.strength-bar-segment');
+	
+	// Stats
+	const statEntropy = document.getElementById('stat-entropy') as HTMLSpanElement;
+	const statLength = document.getElementById('stat-length') as HTMLSpanElement;
+	
+	// Crack Time Slots
+	const crackOnline = document.getElementById('crack-online') as HTMLSpanElement;
+	const crackFast = document.getElementById('crack-fast') as HTMLSpanElement;
+	const crackSlow = document.getElementById('crack-slow') as HTMLSpanElement;
+	
+	// Feedback Area
+	const feedbackAlert = document.getElementById('feedback-alert') as HTMLDivElement;
+	const feedbackIconContainer = document.getElementById('feedback-icon-container') as HTMLDivElement;
+	const feedbackTitle = document.getElementById('feedback-title') as HTMLHeadingElement;
+	const feedbackText = document.getElementById('feedback-text') as HTMLParagraphElement;
+	
+	// Criteria Dots
+	const ruleLength = document.getElementById('rule-length') as HTMLDivElement;
+	const ruleUpper = document.getElementById('rule-upper') as HTMLDivElement;
+	const ruleLower = document.getElementById('rule-lower') as HTMLDivElement;
+	const ruleNumber = document.getElementById('rule-number') as HTMLDivElement;
+	const ruleSymbol = document.getElementById('rule-symbol') as HTMLDivElement;
+	
+    // Leak check removed — elements intentionally omitted
+
+	// Generator Elements
+	const generatedPasswordText = document.getElementById('generated-password-text') as HTMLSpanElement;
+	const copyBtn = document.getElementById('copy-btn') as HTMLButtonElement;
+	const copyToast = document.getElementById('copy-toast') as HTMLDivElement;
+	const regenerateBtn = document.getElementById('regenerate-btn') as HTMLButtonElement;
+	const lengthSlider = document.getElementById('length-slider') as HTMLInputElement;
+	const sliderVal = document.getElementById('slider-val') as HTMLSpanElement;
+	
+	const genUpper = document.getElementById('gen-upper') as HTMLInputElement;
+	const genLower = document.getElementById('gen-lower') as HTMLInputElement;
+	const genNumber = document.getElementById('gen-number') as HTMLInputElement;
+	const genSymbol = document.getElementById('gen-symbol') as HTMLInputElement;
+	
+	const genStrengthBadge = document.getElementById('gen-strength-badge') as HTMLSpanElement;
+	const genCrackTime = document.getElementById('gen-crack-time') as HTMLSpanElement;
+
+    // Leak check removed
+
+	// Color configurations for Score (0 to 4)
+	const scoreConfigs = [
+		{ 
+			label: 'Too Weak', 
+			colorClass: 'text-red-500 border-red-500/20 bg-red-500/10', 
+			barColor: 'bg-red-500 border-red-400/50 shadow-[0_0_10px_rgba(239,68,68,0.2)]' 
+		},
+		{ 
+			label: 'Weak', 
+			colorClass: 'text-orange-500 border-orange-500/20 bg-orange-500/10', 
+			barColor: 'bg-orange-500 border-orange-400/50 shadow-[0_0_10px_rgba(249,115,22,0.2)]' 
+		},
+		{ 
+			label: 'Fair', 
+			colorClass: 'text-amber-500 border-amber-500/20 bg-amber-500/10', 
+			barColor: 'bg-amber-500 border-amber-400/50 shadow-[0_0_10px_rgba(234,179,8,0.2)]' 
+		},
+		{ 
+			label: 'Strong', 
+			colorClass: 'text-emerald-500 border-emerald-500/20 bg-emerald-500/10', 
+			barColor: 'bg-emerald-500 border-emerald-400/50 shadow-[0_0_10px_rgba(16,185,129,0.2)]' 
+		},
+		{ 
+			label: 'Unbreakable', 
+			colorClass: 'text-sky-400 border-sky-500/20 bg-sky-500/10', 
+			barColor: 'bg-sky-400 border-sky-300/50 shadow-[0_0_10px_rgba(56,189,248,0.2)]' 
+		}
+	];
+
+	// Handle Password Visibility Toggle
+	toggleVisibilityBtn.addEventListener('click', () => {
+		if (passwordInput.type === 'password') {
+			passwordInput.type = 'text';
+			visibilityIconText.textContent = 'Hide';
+		} else {
+			passwordInput.type = 'password';
+			visibilityIconText.textContent = 'Show';
+		}
+	});
+
+	// Clear Password Input
+	clearBtn.addEventListener('click', () => {
+		passwordInput.value = '';
+		passwordInput.focus();
+		analyzePassword('');
+	});
+
+	// Input listener
+	passwordInput.addEventListener('input', () => {
+		const val = passwordInput.value;
+		if (val.length > 0) {
+			clearBtn.classList.remove('hidden');
+		} else {
+			clearBtn.classList.add('hidden');
+		}
+		analyzePassword(val);
+	});
+
+	// Evaluate Password Strength
+	async function analyzePassword(password: string) {
+		statLength.textContent = password.length.toString();
+		
+		// Reset states if password is empty
+		if (!password) {
+			strengthLabel.textContent = 'Enter a password...';
+			strengthLabel.className = 'text-neutral-600 transition-colors duration-300';
+			statEntropy.textContent = '-';
+			crackOnline.textContent = '-';
+			crackFast.textContent = '-';
+			crackSlow.textContent = '-';
+			
+			// Reset bar segments
+			barSegments.forEach(segment => {
+				segment.className = 'strength-bar-segment bg-neutral-900 border border-neutral-800/80 rounded-full transition-all duration-300';
+			});
+			
+			// Reset alerts
+			feedbackAlert.classList.add('hidden');
+			
+			// Reset checkboxes
+			resetCriteriaCheckboxes();
+			
+        // Leak check removed
+			return;
+		}
+
+		// Check Criteria Checklist manually
+		checkCriteriaCheckboxes(password);
+
+		// Get or load zxcvbn dynamically
+		const zxcvbnInstance = await loadZxcvbn();
+		if (!zxcvbnInstance) return;
+
+		// Calculate strength using zxcvbn
+		const result = zxcvbnInstance(password);
+		const score = result.score; // 0 to 4
+		
+		// Map entropy bits (approximation)
+		const entropyBits = Math.round(result.guesses_log10 * 3.322); 
+		statEntropy.textContent = entropyBits.toString();
+
+		// Apply segment coloring
+		const config = scoreConfigs[score];
+		strengthLabel.textContent = config.label;
+		strengthLabel.className = `font-bold tracking-wide transition-colors duration-300 ${config.colorClass.split(' ')[0]}`;
+
+		barSegments.forEach((segment, idx) => {
+			if (idx <= score) {
+				segment.className = `strength-bar-segment rounded-full transition-all duration-500 border ${config.barColor}`;
+			} else {
+				segment.className = 'strength-bar-segment bg-neutral-900 border border-neutral-800/80 rounded-full transition-all duration-300';
+			}
+		});
+
+		// Dynamic Hacking Estimations
+		crackOnline.textContent = result.crack_times_display.online_no_throttling_10_guesses_per_second;
+		crackFast.textContent = result.crack_times_display.offline_fast_hashing_1e10_guesses_per_second;
+		crackSlow.textContent = result.crack_times_display.offline_slow_hashing_1e4_guesses_per_second;
+
+		// Feedbacks & Warnings
+		const feedbackObj = result.feedback;
+		if (feedbackObj.warning || (feedbackObj.suggestions && feedbackObj.suggestions.length > 0)) {
+			feedbackAlert.classList.remove('hidden');
+			
+			// Change styling based on strength
+			if (score <= 1) {
+				feedbackAlert.className = 'rounded-lg border border-red-500/20 bg-red-950/20 p-4 transition-all duration-300';
+				feedbackTitle.className = 'text-xs font-bold uppercase tracking-wider text-red-400';
+				feedbackIconContainer.innerHTML = `
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-red-400">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+					</svg>
+				`;
+			} else {
+				feedbackAlert.className = 'rounded-lg border border-amber-500/20 bg-amber-950/20 p-4 transition-all duration-300';
+				feedbackTitle.className = 'text-xs font-bold uppercase tracking-wider text-amber-400';
+				feedbackIconContainer.innerHTML = `
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-amber-400">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 111.063.852l-.708 2.836a.75.75 0 001.063.852l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+					</svg>
+				`;
+			}
+
+			feedbackTitle.textContent = feedbackObj.warning || 'Suggestion';
+			feedbackText.textContent = feedbackObj.suggestions[0] || 'Avoid patterns or easily guessable words.';
+		} else {
+			feedbackAlert.classList.add('hidden');
+		}
+
+        // Leak check removed
+	}
+
+	// Manual Rules Check
+	function checkCriteriaCheckboxes(password: string) {
+		// Rule 1: Length >= 12
+		setRuleStatus(ruleLength, password.length >= 12);
+		// Rule 2: Upper Case
+		setRuleStatus(ruleUpper, /[A-Z]/.test(password));
+		// Rule 3: Lower Case
+		setRuleStatus(ruleLower, /[a-z]/.test(password));
+		// Rule 4: Number
+		setRuleStatus(ruleNumber, /[0-9]/.test(password));
+		// Rule 5: Symbol
+		setRuleStatus(ruleSymbol, /[^A-Za-z0-9]/.test(password));
+	}
+
+	function resetCriteriaCheckboxes() {
+		[ruleLength, ruleUpper, ruleLower, ruleNumber, ruleSymbol].forEach(rule => {
+			const dot = rule.querySelector('.status-dot') as HTMLSpanElement;
+			const label = rule.querySelector('span:not(.status-dot)') as HTMLSpanElement;
+			
+			dot.className = 'status-dot w-4 h-4 flex items-center justify-center rounded-full bg-neutral-900 border border-neutral-800 text-[10px] font-bold text-neutral-600';
+			dot.textContent = '✓';
+			label.className = 'text-xs font-medium text-neutral-500';
+		});
+	}
+
+	function setRuleStatus(element: HTMLDivElement, isValid: boolean) {
+		const dot = element.querySelector('.status-dot') as HTMLSpanElement;
+		const label = element.querySelector('span:not(.status-dot)') as HTMLSpanElement;
+
+		if (isValid) {
+			dot.className = 'status-dot w-4 h-4 flex items-center justify-center rounded-full bg-emerald-500/10 border border-emerald-500/25 text-[10px] font-extrabold text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.1)]';
+			dot.textContent = '✓';
+			label.className = 'text-xs font-semibold text-neutral-300';
+		} else {
+			dot.className = 'status-dot w-4 h-4 flex items-center justify-center rounded-full bg-neutral-900 border border-neutral-800 text-[10px] font-bold text-neutral-600';
+			dot.textContent = '✓';
+			label.className = 'text-xs font-medium text-neutral-500';
+		}
+	}
+
+    // leak check removed
+
+	// --- GENERATOR LOGIC ---
+	const upperChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	const lowerChars = 'abcdefghijklmnopqrstuvwxyz';
+	const numberChars = '0123456789';
+	const symbolChars = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+	function generatePassword() {
+		const length = parseInt(lengthSlider.value, 10);
+		let charset = '';
+		if (genUpper.checked) charset += upperChars;
+		if (genLower.checked) charset += lowerChars;
+		if (genNumber.checked) charset += numberChars;
+		if (genSymbol.checked) charset += symbolChars;
+
+		// Edge case: if no options checked, fall back to lower characters
+		if (charset === '') {
+			genLower.checked = true;
+			charset = lowerChars;
+		}
+
+		let password = '';
+		
+		// Guarantee at least one character from each selected charset to avoid weak generation
+		const activeSets = [];
+		if (genUpper.checked) activeSets.push(upperChars);
+		if (genLower.checked) activeSets.push(lowerChars);
+		if (genNumber.checked) activeSets.push(numberChars);
+		if (genSymbol.checked) activeSets.push(symbolChars);
+		
+		// Setup initial characters securely using Web Crypto API
+		const randomArray = new Uint32Array(length);
+		crypto.getRandomValues(randomArray);
+
+		for (let i = 0; i < length; i++) {
+			// For the first couple of indices, place guaranteed items from sets, then fill randomly
+			if (i < activeSets.length) {
+				const charSet = activeSets[i];
+				password += charSet.charAt(randomArray[i] % charSet.length);
+			} else {
+				password += charset.charAt(randomArray[i] % charset.length);
+			}
+		}
+
+		// Shuffle password characters securely so guaranteed characters aren't all at the start
+		const passArray = password.split('');
+		const shuffleArray = new Uint32Array(passArray.length);
+		crypto.getRandomValues(shuffleArray);
+		
+		for (let i = passArray.length - 1; i > 0; i--) {
+			const j = shuffleArray[i] % (i + 1);
+			const temp = passArray[i];
+			passArray[i] = passArray[j];
+			passArray[j] = temp;
+		}
+		
+		password = passArray.join('');
+		generatedPasswordText.textContent = password;
+		
+		// Evaluate generated password strength
+		evaluateGeneratedPassword(password);
+	}
+
+	async function evaluateGeneratedPassword(password: string) {
+		const zxcvbnInstance = await loadZxcvbn();
+		if (!zxcvbnInstance) return;
+
+		const result = zxcvbnInstance(password);
+		const score = result.score;
+		const config = scoreConfigs[score];
+		
+		genStrengthBadge.textContent = config.label;
+		genStrengthBadge.className = `px-2.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider ${config.colorClass}`;
+		genCrackTime.textContent = `(Crack time: ${result.crack_times_display.offline_slow_hashing_1e4_guesses_per_second})`;
+	}
+
+	// Copy to clipboard
+	async function copyGeneratedPassword() {
+		const passText = generatedPasswordText.textContent?.trim();
+		if (!passText || passText === 'Click Generate') return;
+
+		try {
+			await navigator.clipboard.writeText(passText);
+			
+			// Show Toast
+			copyToast.className = 'opacity-100 translate-y-0 pointer-events-auto transition-all duration-300 absolute left-1/2 -translate-x-1/2 bottom-8 z-50 bg-neutral-900 border border-neutral-800 text-neutral-300 text-xs px-4 py-2 rounded-full shadow-lg flex items-center space-x-2';
+			
+			// Clear Toast after 2.5s
+			setTimeout(() => {
+				copyToast.className = 'opacity-0 translate-y-2 pointer-events-none transition-all duration-300 absolute left-1/2 -translate-x-1/2 bottom-8 z-50 bg-neutral-900 border border-neutral-800 text-neutral-300 text-xs px-4 py-2 rounded-full shadow-lg flex items-center space-x-2';
+			}, 2500);
+		} catch (err) {
+			console.error('Failed to copy password:', err);
+		}
+	}
+
+	// Slider listener
+	lengthSlider.addEventListener('input', () => {
+		sliderVal.textContent = lengthSlider.value;
+		generatePassword();
+	});
+
+	// Checkbox listeners
+	[genUpper, genLower, genNumber, genSymbol].forEach(checkbox => {
+		checkbox.addEventListener('change', () => {
+			generatePassword();
+		});
+	});
+
+	// Button listeners
+	regenerateBtn.addEventListener('click', generatePassword);
+	copyBtn.addEventListener('click', copyGeneratedPassword);
+
+	// Preload zxcvbn on interaction
+	window.addEventListener('load', () => {
+		setTimeout(loadZxcvbn, 1500);
+	});
+	passwordInput.addEventListener('focus', loadZxcvbn);
+	lengthSlider.addEventListener('focus', loadZxcvbn);
+
+	// Generate initial password on load
+	generatePassword();
+</script>

@@ -1,0 +1,58 @@
+:root{
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --text: #111827;
+  --muted: #6b7280;
+  --accent: #4f46e5;
+  --danger: #ef4444;
+  --meter-weak: #ef4444;
+  --meter-fair: #f59e0b;
+  --meter-good: #10b981;
+  --meter-strong: #06b6d4;
+}
+
+[data-theme="dark"]{
+  --bg: #0b1220;
+  --card: #0f1724;
+  --text: #e6eef8;
+  --muted: #9aa7b2;
+  --accent: #7c5cff;
+  --danger: #ff6b6b;
+}
+
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{
+  margin:0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg,var(--bg),color-mix(in srgb, var(--bg) 85%, black 15%));
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  padding:24px;
+}
+
+.app{max-width:760px;margin:0 auto}
+.app-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.app-header h1{font-size:1.125rem;margin:0}
+.card{background:var(--card);padding:20px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.08)}
+.input-row{display:flex;gap:10px;margin-top:8px}
+input[type="password"], input[type="text"]{flex:1;padding:12px 14px;border-radius:8px;border:1px solid rgba(15,23,42,0.06);font-size:1rem;background:transparent;color:var(--text)}
+.btn{background:transparent;border:1px solid rgba(0,0,0,0.06);padding:8px 12px;border-radius:8px;color:var(--text);cursor:pointer}
+.btn.small{padding:8px 10px;font-size:.9rem}
+.meter{height:12px;background:rgba(2,6,23,0.04);border-radius:8px;margin-top:14px;overflow:hidden}
+.meter-bar{height:100%;width:0%;background:var(--meter-weak);transition:width .22s ease,background-color .22s ease}
+.status-row{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+.strength-text{font-weight:600}
+.score-text{color:var(--muted)}
+.advice-list{margin:12px 0 0 16px;padding:0}
+.advice-list li{margin:6px 0;color:var(--muted)}
+.info{margin-top:14px}
+.app-footer{margin-top:12px;text-align:center;color:var(--muted)}
+
+/* responsive */
+@media (max-width:420px){
+  .app{padding:10px}
+  .card{padding:14px}
+  .app-header h1{font-size:1rem}
+}

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Password Strength Tester</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <header class="app-header">
+      <h1>Password Strength Tester</h1>
+      <div class="controls">
+        <button id="themeToggle" class="btn" aria-pressed="false">Dark Mode</button>
+      </div>
+    </header>
+
+    <section class="card">
+      <label for="password">Enter a password</label>
+      <div class="input-row">
+        <input id="password" type="password" inputmode="text" autocomplete="new-password" placeholder="Type a password" aria-describedby="strengthText" />
+        <button id="showToggle" class="btn small" aria-pressed="false" title="Show password">Show</button>
+      </div>
+
+      <div class="meter" role="progressbar" aria-hidden="false" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Password strength">
+        <div id="meterBar" class="meter-bar" aria-hidden="true"></div>
+      </div>
+
+      <div class="status-row">
+        <div id="strengthText" class="strength-text">Type a password to see strength</div>
+        <div id="scoreText" class="score-text"></div>
+      </div>
+
+      <div class="feedback">
+        <ul id="adviceList" class="advice-list" aria-live="polite"></ul>
+      </div>
+
+      <details class="info">
+        <summary>How strength is calculated</summary>
+        <p>We estimate strength using length, character variety, repeated characters and common patterns. This is a client-side estimator for guidance only.</p>
+      </details>
+    </section>
+
+    <footer class="app-footer">
+      <small>Built with a practical, minimal approach — keep passwords long and unique.</small>
+    </footer>
+  </main>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
