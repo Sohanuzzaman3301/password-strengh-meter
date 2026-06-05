@@ -1,21 +1,14 @@
-# password-strengh-meter
+# Password Strength Meter
 
-A small, client-side password strength and leak checker built with Astro.
+Client-side password strength and leak checker built with Astro.
 
-This project evaluates password entropy, estimates crack times, and performs a k-anonymity based leak check (Have I Been Pwned) entirely in the browser so no passwords are sent to servers.
+Features:
+- Estimates password entropy and likely crack times using a zxcvbn-inspired approach.
+- Performs k-anonymity leak checks (Have I Been Pwned) from the browser — no plaintext passwords are transmitted.
 
-Why this project is on my CV
+Quick start:
+1. Install dependencies: `npm install`
+2. Start dev server: `npm run dev`
+3. Build for production: `npm run build`
 
-- Clean, focused demo of security-minded front-end tooling.
-- Uses zxcvbn-style entropy estimation and safe leak checking.
-- Deployable to Cloudflare Pages using Wrangler.
-
-Quick start
-
-1. Install: `npm install`
-2. Dev server: `npm run dev`
-3. Build: `npm run build`
-
-License
-
-MIT — see LICENSE file.
+License: MIT
