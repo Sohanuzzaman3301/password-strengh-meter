@@ -1,0 +1,10 @@
+[site]
+bucket = "dist"
+entry-point = "./"
+
+name = "password-strengh-meter"
+
+# Build settings (Astro builds to `dist/` by default)
+[build]
+command = "npm run build"
+upload = { format = "service-worker" }
