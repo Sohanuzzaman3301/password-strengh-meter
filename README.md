@@ -22,3 +22,7 @@ Setup:
 2. Push to `main` — the workflow will run automatically and publish the site.
 
 After the workflow completes, find the site URL in your Cloudflare Pages dashboard and add it to this README.
+
+Live demo:
+
+- https://dd3b2174.password-strength-meter.pages.dev/
